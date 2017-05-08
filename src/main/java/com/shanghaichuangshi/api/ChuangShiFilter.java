@@ -27,8 +27,14 @@ public class ChuangShiFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        String project = request.getHeader("Project");
+
         String url = request.getRequestURI();
-        String path = "http://" + request.getServerName().replace("api.", "api." + request.getHeader("Project") + ".") + url ;
+        String path = "http://" + request.getServerName().replace("api.", "api." + project + ".") + url ;
+
+        if (project.equals("MINA_RENT")) {
+            path = "http://114.215.47.235:8091" + url;
+        }
 
         if (request.getMethod().equals("POST")) {
             HttpPost httpPost = new HttpPost(path);
