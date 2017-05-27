@@ -30,10 +30,19 @@ public class ChuangShiFilter implements Filter {
         String project = request.getHeader("Project");
 
         String url = request.getRequestURI();
+
+        if (url.endsWith(".txt")) {
+            chain.doFilter(request, response);
+
+            return;
+        }
+
         String path = "http://" + request.getServerName().replace("api.", "api." + project + ".") + url ;
 
         if (project.equals("MINA_RENT")) {
             path = "http://114.215.47.235:8091" + url;
+        } else if (project.equals("MINA_DIANCAN")) {
+            path = "http://114.215.47.235:8092" + url;
         }
 
         if (request.getMethod().equals("POST")) {
